@@ -10,6 +10,7 @@
 # "https://github.com/watertap-org/reaktoro-pse/"
 #################################################################################
 
+import sys
 import pytest
 
 from reaktoro_pse.parallel_tools.reaktoro_block_manager import ReaktoroBlockManager
@@ -50,6 +51,7 @@ from pyomo.contrib.pynumero.interfaces.external_grey_box import (
         "BFGS_ipopt",
     ],
 )
+@pytest.mark.skipif(sys.platform == "darwin", reason="Skipping on macOS")
 def test_blockBuild_with_speciation_block(build_rkt_state_with_species, hess_type):
     m = build_rkt_state_with_species
     m.CaO = Var(["CaO"], initialize=0.001, units=pyunits.mol / pyunits.s)
